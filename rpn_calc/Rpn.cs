@@ -88,5 +88,42 @@ namespace rpn_calc
 
             return output;
         }
+        public double CountRPNotation(string input)
+        {
+            double result = 0;
+            Stack<double> temp = new Stack<double>();
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (Char.IsDigit(input[i]))
+                {
+                    string numberStr = string.Empty;
+                    while (!IsSpace(input[i]) && !IsOperator(input[i]))
+                    {
+                        numberStr += input[i];
+                        i++;
+                        if (i == input.Length) break;
+                    }
+                    temp.Push(double.Parse(numberStr));
+                    i--;
+                }
+                else if (IsOperator(input[i]))
+                {
+                    double firstNumber = temp.Pop();
+                    double secondNumber = temp.Pop();
+
+                    switch (input[i])
+                    {
+                        case '+': result = secondNumber + firstNumber; break;
+                        case '-': result = secondNumber - firstNumber; break;
+                        case '*': result = secondNumber * firstNumber; break;
+                        case '/': result = secondNumber / firstNumber; break;
+                        case '^': result = double.Parse(Math.Pow(double.Parse(secondNumber.ToString()), double.Parse(firstNumber.ToString())).ToString()); break;
+                    }
+                    temp.Push(result);
+                }
+            }
+            return temp.Peek();
+        }
     }
 }
