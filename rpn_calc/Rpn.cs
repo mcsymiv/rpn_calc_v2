@@ -100,47 +100,45 @@ namespace rpn_calc
             {
                 double result = 0;
                 Stack<double> temp = new Stack<double>();
-                try
+
+                for (int i = 0; i < input.Length; i++)
                 {
-                    for (int i = 0; i < input.Length; i++)
+
+                    if (Char.IsDigit(input[i]))
                     {
-
-                        if (Char.IsDigit(input[i]))
+                        string numberStr = string.Empty;
+                        while (!IsSpace(input[i]) && !IsOperator(input[i]))
                         {
-                            string numberStr = string.Empty;
-                            while (!IsSpace(input[i]) && !IsOperator(input[i]))
-                            {
-                                numberStr += input[i];
-                                i++;
-                                if (i == input.Length) break;
-                            }
-                            temp.Push(double.Parse(numberStr));
-                            i--;
+                            numberStr += input[i];
+                            i++;
+                            if (i == input.Length) break;
                         }
-                        else if (IsOperator(input[i]))
-                        {
-                            double firstNumber = temp.Pop();
-                            double secondNumber = temp.Pop();
-
-                            switch (input[i])
-                            {
-                                case '+': result = secondNumber + firstNumber; break;
-                                case '-': result = secondNumber - firstNumber; break;
-                                case '*': result = secondNumber * firstNumber; break;
-                                case '/': result = secondNumber / firstNumber; break;
-                                case '^': result = double.Parse(Math.Pow(double.Parse(secondNumber.ToString()), double.Parse(firstNumber.ToString())).ToString()); break;
-                            }
-                            temp.Push(result);
-                        }
-
+                        temp.Push(double.Parse(numberStr));
+                        i--;
                     }
-                    return temp.Peek();
+                    else if (IsOperator(input[i]))
+                    {
+                        double firstNumber = temp.Pop();
+                        double secondNumber = temp.Pop();
+
+                        switch (input[i])
+                        {
+                            case '+': result = secondNumber + firstNumber; break;
+                            case '-': result = secondNumber - firstNumber; break;
+                            case '*': result = secondNumber * firstNumber; break;
+                            case '/': result = secondNumber / firstNumber; break;
+                            case '^': result = double.Parse(Math.Pow(double.Parse(secondNumber.ToString()), double.Parse(firstNumber.ToString())).ToString()); break;
+                        }
+                        temp.Push(result);
+                    }
+
                 }
-                catch (InvalidOperationException) 
-                {
-                    Console.WriteLine("Invalid operator input");
-                    return 0;
-                }
+                return temp.Peek();
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("Invalid operator input");
+                return 0;
             }
             catch (FormatException)
             {
