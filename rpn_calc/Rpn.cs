@@ -25,13 +25,68 @@ namespace rpn_calc
         }
         public bool IsSpace(char c)
         {
-            if ( c == ' ' ) return true;
+            if (c == ' ') return true;
             return false;
         }
         public bool IsOperator(char с)
         {
             if (("+-/*^()".IndexOf(с) != -1)) return true;
             return false;
+        }
+        public string InputToRPNotation(string input)
+        {
+            string output = string.Empty;
+            Stack<char> operStack = new Stack<char>();
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (IsSpace(input[i])) continue;
+                if (Char.IsDigit(input[i]))
+                {
+                    while (!IsSpace(input[i]) && !IsOperator(input[i]))
+                    {
+                        output += input[i];
+                        i++;
+                        if (i == input.Length) break;
+                    }
+                    output += " ";
+                    i--;
+                }
+                if (IsOperator(input[i]))
+                {
+                    if (input[i] == '(')
+                    {
+                        operStack.Push(input[i]);
+                    }
+                    else if (input[i] == ')')
+                    {
+                        char s = operStack.Pop();
+                        while (s != '(')
+                        {
+                            output += s.ToString() + ' ';
+                            s = operStack.Pop();
+                        }
+                    }
+                    else
+                    {
+                        if (operStack.Count > 0)
+                        {
+                            if (GetPriority(input[i]) <= GetPriority(operStack.Peek()))
+                            {
+                                output += operStack.Pop().ToString() + " ";
+                            }
+                        }
+                        operStack.Push(char.Parse(input[i].ToString()));
+
+                    }
+                }
+            }
+            while (operStack.Count > 0)
+            {
+                output += operStack.Pop() + " ";
+            }
+
+            return output;
         }
     }
 }
