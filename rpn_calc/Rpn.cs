@@ -8,6 +8,7 @@ namespace rpn_calc
 {
     public class Rpn
     {
+        // method returns character priority
         public int GetPriority(char s)
         {
             switch (s)
@@ -21,6 +22,11 @@ namespace rpn_calc
                 case '^': return 5;
                 default: return 6;
             }
+        }
+        public bool IsSpace(char c)
+        {
+            if ( c == ' ') return true;
+            return false;
         }
     }
 }
