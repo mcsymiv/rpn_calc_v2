@@ -8,7 +8,12 @@ namespace rpn_calc
 {
     public class Rpn
     {
-        // method returns character priority
+        public double Calculate(string input)
+        {
+            string output = InputToRPNotation(input);
+            double result = CountRPNotation(output);
+            return result;
+        }
         public int GetPriority(char s)
         {
             switch (s)
