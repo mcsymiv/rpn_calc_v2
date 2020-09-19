@@ -18,5 +18,18 @@ namespace RPN_UnitTest
             bool isExpectedOperator = new Rpn().IsOperator(oper);
             Assert.IsTrue(isExpectedOperator);
         }
+
+        [TestCase('(')]
+        [TestCase(')')]
+        [TestCase('+')]
+        [TestCase('-')]
+        [TestCase('*')]
+        [TestCase('/')]
+        [TestCase('^')]
+        public void PriorityNumberIfValidOperator(char oper)
+        {
+            int isExpectedPriorityNumber = new Rpn().GetPriority(oper);
+            Assert.IsTrue(isExpectedPriorityNumber <= 5 || isExpectedPriorityNumber >= 0);
+        }
     }
 }
