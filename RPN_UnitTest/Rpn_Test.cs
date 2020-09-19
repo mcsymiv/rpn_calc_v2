@@ -31,5 +31,13 @@ namespace RPN_UnitTest
             int isExpectedPriorityNumber = new Rpn().GetPriority(oper);
             Assert.IsTrue(isExpectedPriorityNumber <= 5 || isExpectedPriorityNumber >= 0);
         }
+
+        [TestCase(' ', true)]
+        // [TestCase(' ', false)]
+        public void TrueIfSpaceIsDeliminer(char oper, bool expectedResult)
+        {
+            bool isExpected = new Rpn().IsSpace(oper);
+            Assert.AreEqual(isExpected, expectedResult);
+        }
     }
 }
