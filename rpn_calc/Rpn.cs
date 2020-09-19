@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -95,40 +96,57 @@ namespace rpn_calc
         }
         public double CountRPNotation(string input)
         {
-            double result = 0;
-            Stack<double> temp = new Stack<double>();
-
-            for (int i = 0; i < input.Length; i++)
+            try
             {
-                if (Char.IsDigit(input[i]))
+                double result = 0;
+                Stack<double> temp = new Stack<double>();
+                try
                 {
-                    string numberStr = string.Empty;
-                    while (!IsSpace(input[i]) && !IsOperator(input[i]))
+                    for (int i = 0; i < input.Length; i++)
                     {
-                        numberStr += input[i];
-                        i++;
-                        if (i == input.Length) break;
-                    }
-                    temp.Push(double.Parse(numberStr));
-                    i--;
-                }
-                else if (IsOperator(input[i]))
-                {
-                    double firstNumber = temp.Pop();
-                    double secondNumber = temp.Pop();
 
-                    switch (input[i])
-                    {
-                        case '+': result = secondNumber + firstNumber; break;
-                        case '-': result = secondNumber - firstNumber; break;
-                        case '*': result = secondNumber * firstNumber; break;
-                        case '/': result = secondNumber / firstNumber; break;
-                        case '^': result = double.Parse(Math.Pow(double.Parse(secondNumber.ToString()), double.Parse(firstNumber.ToString())).ToString()); break;
+                        if (Char.IsDigit(input[i]))
+                        {
+                            string numberStr = string.Empty;
+                            while (!IsSpace(input[i]) && !IsOperator(input[i]))
+                            {
+                                numberStr += input[i];
+                                i++;
+                                if (i == input.Length) break;
+                            }
+                            temp.Push(double.Parse(numberStr));
+                            i--;
+                        }
+                        else if (IsOperator(input[i]))
+                        {
+                            double firstNumber = temp.Pop();
+                            double secondNumber = temp.Pop();
+
+                            switch (input[i])
+                            {
+                                case '+': result = secondNumber + firstNumber; break;
+                                case '-': result = secondNumber - firstNumber; break;
+                                case '*': result = secondNumber * firstNumber; break;
+                                case '/': result = secondNumber / firstNumber; break;
+                                case '^': result = double.Parse(Math.Pow(double.Parse(secondNumber.ToString()), double.Parse(firstNumber.ToString())).ToString()); break;
+                            }
+                            temp.Push(result);
+                        }
+
                     }
-                    temp.Push(result);
+                    return temp.Peek();
+                }
+                catch (InvalidOperationException) 
+                {
+                    Console.WriteLine("Invalid operator input");
+                    return 0;
                 }
             }
-            return temp.Peek();
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid operator input");
+                return 0;
+            }
         }
     }
 }
