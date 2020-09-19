@@ -10,9 +10,18 @@ namespace rpn_calc
     {
         static void Main(string[] args)
         {
+            Rpn rpn = new Rpn();
             Console.WriteLine("Welcome to the RPN Calculator!");
             Console.WriteLine("-------------------------------");
-            Console.WriteLine("This is a calculator with reverse \n polish notation algorithm");
+            Console.WriteLine("This is a calculator with reverse \npolish notation algorithm");
+            Console.WriteLine("-------------------------------");
+
+            while (true)
+            {
+                Console.Write("Enter expression: ");
+                Console.WriteLine(rpn.Calculate(Console.ReadLine()));
+            }
+            
         }
     }
 }
