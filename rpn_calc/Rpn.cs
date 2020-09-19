@@ -25,7 +25,12 @@ namespace rpn_calc
         }
         public bool IsSpace(char c)
         {
-            if ( c == ' ') return true;
+            if ( c == ' ' ) return true;
+            return false;
+        }
+        public bool IsOperator(char с)
+        {
+            if (("+-/*^()".IndexOf(с) != -1)) return true;
             return false;
         }
     }
