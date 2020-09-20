@@ -10,9 +10,26 @@ namespace rpn_calc
     {
         static void Main(string[] args)
         {
+            Rpn rpn = new Rpn();
             Console.WriteLine("Welcome to the RPN Calculator!");
             Console.WriteLine("-------------------------------");
-            Console.WriteLine("This is a calculator with reverse \n polish notation algorithm");
+            Console.WriteLine("This is a calculator with reverse \npolish notation algorithm");
+            Console.WriteLine("-------------------------------");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("To close the program just type \"exit\" \ninto the \"Enter expression:\" field");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("-------------------------------");
+            string input = string.Empty;
+            double result = 0;
+            while (true)
+            {
+                Console.Write("Enter expression: ");
+                input = Console.ReadLine();
+                result  = rpn.Calculate(input);
+                if (result == 3.141592653510) break;
+                Console.WriteLine(result);
+            }
+            
         }
     }
 }
