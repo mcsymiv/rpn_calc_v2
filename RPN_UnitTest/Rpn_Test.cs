@@ -48,11 +48,20 @@ namespace RPN_UnitTest
 
         [TestCase("3+4*2/(1-5)^2", "3 4 2 * 1 5 - 2 ^ / + ")]
         [TestCase("(1 + 2) * 4 + 3 ", "1 2 + 4 * 3 + ")]
-        
+        [TestCase("(10 - 15)*3", "10 15 - 3 * ")]
         public void ReturnRevesePolishNotationString(string input, string expectedNotation)
         {
-            string isExpectedReversedNotation = new Rpn().InputToRPNotation(input);
-            Assert.AreEqual(isExpectedReversedNotation, expectedNotation);
+            string isReversedNotationString = new Rpn().InputToRPNotation(input);
+            Assert.AreEqual(isReversedNotationString, expectedNotation);
+        }
+
+        [TestCase("3 4 2 * 1 5 - 2 ^ / + ", 3.5)]
+        [TestCase("1 2 + 4 * 3 + ", 15)]
+        [TestCase("10 15 - 3 * ", -15)]
+        public void ReturnResultOfRPNotationDouble(string input, double expectedResult)
+        {
+            double isResultDouble = new Rpn().CountRPNotation(input);
+            Assert.AreEqual(isResultDouble, expectedResult);
         }
     }
 }
