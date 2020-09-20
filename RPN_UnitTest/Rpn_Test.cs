@@ -45,5 +45,14 @@ namespace RPN_UnitTest
             bool isExpectedReversed = new Rpn().IsSpace(oper);
             Assert.AreEqual(!isExpectedReversed, expectedFalseResult);
         }
+
+        [TestCase("3+4*2/(1-5)^2", "3 4 2 * 1 5 - 2 ^ / + ")]
+        [TestCase("(1 + 2) * 4 + 3 ", "1 2 + 4 * 3 + ")]
+        
+        public void ReturnRevesePolishNotationString(string input, string expectedNotation)
+        {
+            string isExpectedReversedNotation = new Rpn().InputToRPNotation(input);
+            Assert.AreEqual(isExpectedReversedNotation, expectedNotation);
+        }
     }
 }
