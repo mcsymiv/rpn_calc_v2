@@ -63,5 +63,12 @@ namespace RPN_UnitTest
             double isResultDouble = new Rpn().CountRPNotation(input);
             Assert.AreEqual(isResultDouble, expectedResult);
         }
+
+        [TestCase("exit", 3.141592653510)]
+        public void EndTheProgramInCaseExitInputString(string input, double expectedResult)
+        {
+            double isUniqueDouble = new Rpn().Calculate(input);
+            Assert.AreEqual(isUniqueDouble, expectedResult);
+        }
     }
 }

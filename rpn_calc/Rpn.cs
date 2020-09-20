@@ -11,9 +11,12 @@ namespace rpn_calc
     {
         public double Calculate(string input)
         {
-            string output = InputToRPNotation(input);
-            double result = CountRPNotation(output);
-            return result;
+            if (input == "exit") return 3.141592653510;
+            else
+            {
+                string output = InputToRPNotation(input);
+                return CountRPNotation(output);
+            }
         }
         public int GetPriority(char s)
         {
