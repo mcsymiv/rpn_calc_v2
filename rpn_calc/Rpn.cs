@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +11,12 @@ namespace rpn_calc
     {
         public double Calculate(string input)
         {
-            string output = InputToRPNotation(input);
-            double result = CountRPNotation(output);
-            return result;
+            if (input == "exit") return 3.141592653510;
+            else
+            {
+                string output = InputToRPNotation(input);
+                return CountRPNotation(output);
+            }
         }
         public int GetPriority(char s)
         {
@@ -95,40 +99,55 @@ namespace rpn_calc
         }
         public double CountRPNotation(string input)
         {
-            double result = 0;
-            Stack<double> temp = new Stack<double>();
-
-            for (int i = 0; i < input.Length; i++)
+            try
             {
-                if (Char.IsDigit(input[i]))
-                {
-                    string numberStr = string.Empty;
-                    while (!IsSpace(input[i]) && !IsOperator(input[i]))
-                    {
-                        numberStr += input[i];
-                        i++;
-                        if (i == input.Length) break;
-                    }
-                    temp.Push(double.Parse(numberStr));
-                    i--;
-                }
-                else if (IsOperator(input[i]))
-                {
-                    double firstNumber = temp.Pop();
-                    double secondNumber = temp.Pop();
+                double result = 0;
+                Stack<double> temp = new Stack<double>();
 
-                    switch (input[i])
+                for (int i = 0; i < input.Length; i++)
+                {
+
+                    if (Char.IsDigit(input[i]))
                     {
-                        case '+': result = secondNumber + firstNumber; break;
-                        case '-': result = secondNumber - firstNumber; break;
-                        case '*': result = secondNumber * firstNumber; break;
-                        case '/': result = secondNumber / firstNumber; break;
-                        case '^': result = double.Parse(Math.Pow(double.Parse(secondNumber.ToString()), double.Parse(firstNumber.ToString())).ToString()); break;
+                        string numberStr = string.Empty;
+                        while (!IsSpace(input[i]) && !IsOperator(input[i]))
+                        {
+                            numberStr += input[i];
+                            i++;
+                            if (i == input.Length) break;
+                        }
+                        temp.Push(double.Parse(numberStr));
+                        i--;
                     }
-                    temp.Push(result);
+                    else if (IsOperator(input[i]))
+                    {
+                        double firstNumber = temp.Pop();
+                        double secondNumber = temp.Pop();
+
+                        switch (input[i])
+                        {
+                            case '+': result = secondNumber + firstNumber; break;
+                            case '-': result = secondNumber - firstNumber; break;
+                            case '*': result = secondNumber * firstNumber; break;
+                            case '/': result = secondNumber / firstNumber; break;
+                            case '^': result = double.Parse(Math.Pow(double.Parse(secondNumber.ToString()), double.Parse(firstNumber.ToString())).ToString()); break;
+                        }
+                        temp.Push(result);
+                    }
+
                 }
+                return temp.Peek();
             }
-            return temp.Peek();
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("Invalid operator input");
+                return 0;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid operator input");
+                return 0;
+            }
         }
     }
 }
