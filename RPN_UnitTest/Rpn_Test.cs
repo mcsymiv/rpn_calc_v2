@@ -33,11 +33,17 @@ namespace RPN_UnitTest
         }
 
         [TestCase(' ', true)]
-        // [TestCase(' ', false)]
         public void TrueIfSpaceIsDeliminer(char oper, bool expectedResult)
         {
             bool isExpected = new Rpn().IsSpace(oper);
             Assert.AreEqual(isExpected, expectedResult);
+        }
+
+        [TestCase(' ', false)]
+        public void FalseIfDeliminerIsNotSpaceSymbol(char oper, bool expectedFalseResult)
+        {
+            bool isExpectedReversed = new Rpn().IsSpace(oper);
+            Assert.AreEqual(!isExpectedReversed, expectedFalseResult);
         }
     }
 }
