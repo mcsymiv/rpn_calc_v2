@@ -5,9 +5,26 @@ using System;
 
 namespace RPN_UnitTest
 {
+    [SetUpFixture]
+    public class MySetUpClass
+    {
+        [OneTimeSetUp]
+        public void RunBeforeAnyTests()
+        {
+            Console.WriteLine("SetupFixture - OneTimeSetup");
+        }
+
+        [OneTimeTearDown]
+        public void RunAfterAllTests()
+        {
+            Console.WriteLine("SetupFixture - OneTimeTearDown");
+        }
+    }
+
     [TestFixture]
     public class Rpn_Test
     {
+
         [TestCase('+')]
         [TestCase('-')]
         [TestCase('*')]
