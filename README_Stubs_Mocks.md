@@ -16,40 +16,6 @@ Stubs - обеспечивают жестко зашитый ответ на в�
 Проверяет правильную работоспособность тестируемого объекта 
 заключается в оценке состояния самого этого объекта, 
 а также взаимодействующих объектов, после вызова этого метода.
-{
-Class under test <------------------> Sub
-|                    Communicate
-|
-|
-|     Assert
-|
-|
-Test
-}
-// пример
-[Test]
-public void LogIn_ExisingUser_HashReturned()
-{
-	// Arrange
-	OrderProcessor = Mock.Of<IOrderProcessor>();
-	OrderData = Mock.Of<IOrderData>();
-	LayoutManager = Mock.Of<ILayoutManager>();
-	NewsProvider = Mock.Of<INewsProvider>();
-
-	Service = new IosService(
-		UserManager,
-		AccountData,
-		OrderProcessor,
-		OrderData,
-		LayoutManager,
-		NewsProvider);
-	
-	// Act
-	var hash = Service.LogIn("ValidUser", "Password");
-
-	// Assert
-	Assert.That(!string.IsNullOrEmpty(hash));
-}
 
 Mock
 
@@ -61,30 +27,7 @@ Mocks - объекты, которые настраиваются (наприм�
 Проверяет набор и порядок действий (вызовов методов взаимодействующих 
 объектов, других методов тестируемого объекта), которое должен совершить 
 метод этот объект.
-{
-Class under test <------------------> Mock
-                     Communicate    |
-                                    |
-                                    | Assert
-                                    |
-                                    |
-                                  Test
-}
-// пример из https://habr.com/ru/post/169381/
-[Test]
-public void Create_AddAccountToSpecificUser_AccountCreatedAndAddedToUser()
-{
-    // Arrange
-    var account = Mock.Of<AccountViewModel>();
-            
-    // Act
-    _controller.Create(1, account);
-
-    // Assert
-    _accountData.Verify(m => m.CreateAccount(It.IsAny<IAccount>()), Times.Exactly(1));
-    _accountData.Verify(m => m.AddAccountToUser(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
-}
-      
+   
 Stub vs Mock
 
 стаб ничего не проверяет, а лишь имитирует заданное состояние. 
