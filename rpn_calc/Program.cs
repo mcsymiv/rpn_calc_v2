@@ -25,11 +25,14 @@ namespace rpn_calc
             {
                 Console.Write("Enter expression: ");
                 input = Console.ReadLine();
-                result  = rpn.Calculate(input);
-                if (result == 3.141592653510) break;
-                Console.WriteLine(result);
+                if (input != "exit")
+                {
+                    result = rpn.Calculate(input);
+                    Console.WriteLine(result);
+                }
+                else break;
             }
-            
+
         }
     }
 }
